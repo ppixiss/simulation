@@ -13,17 +13,7 @@ import world.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityPlacer extends Action {
-
-    public static List<Entity> makeListOfEntities(Predator predator, Prey prey, Wave wave, Coral coral, Island island) {
-        List<Entity> entities = new ArrayList<>();
-        entities.add(predator);
-        entities.add(prey);
-        entities.add(coral);
-        entities.add(island);
-        entities.add(wave);
-        return entities;
-    }
+public class EntityPlacerAction extends Action {
 
     public static void placeEntities(List<Entity> entities, WorldMap worldMap) { //<K, V> - K ключ, V значение
         for (Entity entity : entities) {

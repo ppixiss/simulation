@@ -1,24 +1,20 @@
 package world;
 
-import actions.init.EntityPlacer;
-import entities.Coral;
-import entities.Island;
-import entities.Predator;
-import entities.Prey;
-import entities.Wave;
+import actions.init.EntityConfig;
+import actions.init.EntityListCreatorAction;
+import actions.init.EntityPlacerAction;
+import entities.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
+    EntityConfig entityConfig = new EntityConfig(1, 1, 1, 1, 1);
+    EntityListCreatorAction entityListCreatorAction = new EntityListCreatorAction();
+    List<Entity> entities = new ArrayList<>(entityListCreatorAction.combineAllEntities(entityConfig));
 
     public void simulation(WorldMap worldMap) {
-        EntityPlacer.placeEntities(
-                EntityPlacer.makeListOfEntities(
-                        new Predator(),
-                        new Prey(),
-                        new Wave(),
-                        new Coral(),
-                        new Island()),
-                        worldMap
-        );
+        EntityPlacerAction.placeEntities(entities, worldMap);
     }
 
     public void init() {

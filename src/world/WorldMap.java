@@ -14,5 +14,9 @@ public class WorldMap {
     public boolean isCellEmpty(Position position) { //Возвращает false, если ячейка занята
        return !worldMap.containsKey(position);
     }
+
+    public Entity getEntityAt(Position position) {
+        return worldMap.get(position);
+    }
 }
 
