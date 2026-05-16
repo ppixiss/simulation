@@ -7,7 +7,7 @@ import java.util.List;
 
 public class EntityListCreatorAction {
 
-    public List<Entity> combineAllEntities(EntityConfig entityConfig) {
+    public List<Entity> createAllEntities(EntityConfig entityConfig) {
         List<Entity> allEntities = new ArrayList<>();
 
         allEntities.addAll(EntityCreatorAction.createPredators(entityConfig));

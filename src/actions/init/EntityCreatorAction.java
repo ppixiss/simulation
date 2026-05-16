@@ -12,8 +12,8 @@ import java.util.List;
 public class EntityCreatorAction {
 
     public static List<Predator> createPredators(EntityConfig entityConfig) {
+        int predatorCount = entityConfig.predatorCount();
         List<Predator> predators = new ArrayList<>();
-        int predatorCount = entityConfig.getPredatorCount();
 
         for (int i = 0; i < predatorCount; i++) {
             predators.add(new Predator());
@@ -22,8 +22,9 @@ public class EntityCreatorAction {
     }
 
     public static List<Prey> createPrey(EntityConfig entityConfig) {
+        int preyCount = entityConfig.preyCount();
         List<Prey> preys = new ArrayList<>();
-        int preyCount = entityConfig.getPreyCount();
+
         for (int i = 0; i < preyCount; i++) {
             preys.add(new Prey());
         }
@@ -31,8 +32,9 @@ public class EntityCreatorAction {
     }
 
     public static List<Coral> createCorals(EntityConfig entityConfig) {
+        int coralCount = entityConfig.coralCount();
         List<Coral> corals = new ArrayList<>();
-        int coralCount = entityConfig.getCoralCount();
+
         for (int i = 0; i < coralCount; i++) {
             corals.add(new Coral());
         }
@@ -40,8 +42,9 @@ public class EntityCreatorAction {
     }
 
     public static List<Island> createIslands(EntityConfig entityConfig) {
+        int islandCount = entityConfig.islandCount();
         List<Island> islands = new ArrayList<>();
-        int islandCount = entityConfig.getIslandCount();
+
         for (int i = 0; i < islandCount; i++) {
             islands.add(new Island());
         }
@@ -49,8 +52,9 @@ public class EntityCreatorAction {
     }
 
     public static List<Wave> createWaves(EntityConfig entityConfig) {
+        int waveCount = entityConfig.waveCount();
         List<Wave> waves = new ArrayList<>();
-        int waveCount = entityConfig.getWaveCount();
+
         for (int i = 0; i < waveCount; i++) {
             waves.add(new Wave());
         }

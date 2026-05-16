@@ -6,11 +6,11 @@ import java.util.Random;
 public class Position {
     private Integer x;
     private Integer y;
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
-    public Position(Integer sizeX, Integer sizeY) {
-        this.x = sizeX;
-        this.y = sizeY;
+    public Position(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
     }  //Нужен ли этот конструктор?
 
     public Position() {
@@ -32,11 +32,10 @@ public class Position {
         return y;
     }
 
-
     public static Position getRandomPosition(WorldMap worldMap) {
         while (true) {
-            int x = random.nextInt(10);   //До 10 не включая, то есть до 9
-            int y = random.nextInt(15);   //До 15 не включая, то есть до 14
+            int x = random.nextInt(15);   //До 10 не включая, то есть до 9
+            int y = random.nextInt(10);   //До 15 не включая, то есть до 14
 
             Position position = new Position();
             position.setX(x);

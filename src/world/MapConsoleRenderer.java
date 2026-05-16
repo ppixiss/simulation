@@ -7,11 +7,12 @@ public class MapConsoleRenderer {
 
     public void render(WorldMap worldMap) {
         Position position = new Position();
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 15; y++) {
+        for (int y = 0; y < WorldMap.VERTICAL_SIZE; y++) {
+            for (int x = 0; x < WorldMap.HORIZONTAL_SIZE; x++) {
 
                 position.setX(x);
                 position.setY(y);
+
                 if (worldMap.isCellEmpty(position)) {
                     renderEmptyCell();
                 } else {
