@@ -8,9 +8,8 @@ import world.WorldMap;
 import java.util.List;
 
 public class Predator extends Creature {
-    public static final int SPEED = 2;  //Нужно ли делать через psf?
-    public int attackPower;
-
+    public static final int SPEED = 1;  //Нужно ли делать через psf?
+    public static final int ATTACK_POWER = 25;
     //Хищник стремится приблизиться к добыче, ход может потратить на перемещение или атаку(соседняя клетка)
 
     @Override
@@ -26,18 +25,34 @@ public class Predator extends Creature {
                     pathFinder);
 
             if (canEat(worldMap.getEntityAt(nextCell))) {
-                worldMap.removeEntity(currentPosition);
-                worldMap.setEntity(nextCell, this);
+                Entity target = worldMap.getEntityAt(nextCell);
 
-                return;
+                if (isPreyEaten(target)) {
+                    worldMap.moveEntity(currentPosition, nextCell, this);
+                    return;
+                } else {
+                    attack(target);
+                    count++;
+                }
+
             } else {
-                worldMap.removeEntity(currentPosition);
-                worldMap.setEntity(nextCell, this);
-
+                worldMap.moveEntity(currentPosition, nextCell, this);
                 currentPosition = nextCell;
-
                 count++;
             }
+        }
+    }
+
+    private boolean isPreyEaten(Entity target) {
+        if (target instanceof Prey prey) {
+            return prey.isEaten();
+        }
+        return false;
+    }
+
+    private void attack(Entity target) {
+        if (target instanceof Prey prey) {
+            prey.takeDamage(ATTACK_POWER);
         }
     }
 

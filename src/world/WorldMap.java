@@ -43,4 +43,9 @@ public class WorldMap {
         }
         return false;
     }
+
+    public void moveEntity(Position currentPosition, Position nextCell, Entity entity) {
+        removeEntity(currentPosition);
+        setEntity(nextCell, entity);
+    }
 }

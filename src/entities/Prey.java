@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Prey extends Creature {
     public static final int SPEED = 1;
+    public int hp = 100;
     //Стремятся найти ресурс, может потратить свой ход на движение в сторону травы, либо на её поглощение.
 
     @Override
@@ -24,19 +25,25 @@ public class Prey extends Creature {
                     pathFinder);
 
             if (canEat(worldMap.getEntityAt(nextCell))) {
-                worldMap.removeEntity(currentPosition);
-                worldMap.setEntity(nextCell, this);
+                worldMap.moveEntity(currentPosition, nextCell, this);
 
                 return;
             } else {
-                worldMap.removeEntity(currentPosition);
-                worldMap.setEntity(nextCell, this);
+                worldMap.moveEntity(currentPosition, nextCell, this);
 
                 currentPosition = nextCell;
 
                 count++;
             }
         }
+    }
+
+    public boolean isEaten() {
+        return hp <= 0;
+    }
+
+    public void takeDamage(int attackPower) {
+        hp -= attackPower;
     }
 
     @Override
