@@ -34,8 +34,8 @@ public class Position {
 
     public static Position getRandomPosition(WorldMap worldMap) {
         while (true) {
-            int x = random.nextInt(15);   //До 10 не включая, то есть до 9
-            int y = random.nextInt(10);   //До 15 не включая, то есть до 14
+            int x = random.nextInt(WorldMap.HORIZONTAL_SIZE);
+            int y = random.nextInt(WorldMap.VERTICAL_SIZE);
 
             Position position = new Position();
             position.setX(x);

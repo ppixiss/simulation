@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class WorldMap {
-    public static final int HORIZONTAL_SIZE = 15;
+    public static final int HORIZONTAL_SIZE = 10;
     public static final int VERTICAL_SIZE = 10;
 
     private final HashMap<Position, Entity> worldMap = new HashMap<>();  //<K, V>

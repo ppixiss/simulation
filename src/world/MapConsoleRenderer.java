@@ -30,6 +30,6 @@ public class MapConsoleRenderer {
     }
 
     public void renderEmptyCell() {
-        System.out.print("🟦");
+        System.out.print("🟦 ");
     }
 }
