@@ -2,6 +2,7 @@ package world;
 
 import entities.Entity;
 import entities.Prey;
+import entities.Wave;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,17 @@ public class WorldMap {
             Entity entity = entry.getValue();
 
             if (entity instanceof Prey) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasWave() {
+        for (Map.Entry<Position, Entity> entry : getEntries()) {
+            Entity entity = entry.getValue();
+
+            if (entity instanceof Wave) {
                 return true;
             }
         }
