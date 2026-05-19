@@ -12,8 +12,6 @@ public class SimulationMenu {
     private static final String ITALIC = "\u001B[3m";
     private static final String PURPLE = "\u001B[35m";
 
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static void printWelcomeMessage() {
         System.out.println("🌊️🌊🌊🌊🌊🌊🌊🌊🌊🌊\uD83C\uDFC4🌊🌊");
         System.out.print("🌊");
