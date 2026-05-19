@@ -13,12 +13,13 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Simulation {
-    EntityConfig entityConfig = new EntityConfig(1, 3, 4, 3, 1);
-    EntityListCreatorAction entityListCreatorAction = new EntityListCreatorAction();
-    List<Entity> entities = new ArrayList<>(entityListCreatorAction.createAllEntities(entityConfig));
-    MapConsoleRenderer renderer = new MapConsoleRenderer();
-    CreatureMovementAction movementAction = new CreatureMovementAction();
-    WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();
+    public EntityConfig entityConfig = new EntityConfig(1, 5, 7, 5, 1);
+
+    private final EntityListCreatorAction entityListCreatorAction = new EntityListCreatorAction();
+    private final List<Entity> entities = new ArrayList<>(entityListCreatorAction.createAllEntities(entityConfig));
+    private final MapConsoleRenderer renderer = new MapConsoleRenderer();
+    private final CreatureMovementAction movementAction = new CreatureMovementAction();
+    private final WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();
     private int countMoves = 1;
     private boolean paused = false;
 
@@ -46,11 +47,11 @@ public class Simulation {
         renderer.render(worldMap);
     }
 
-    public void initSimulation(WorldMap worldMap) {
+    private void initSimulation(WorldMap worldMap) {
         EntityPlacerAction.placeEntities(entities, worldMap);
     }
 
-    public void nextTurn(WorldMap worldMap) {  //просимулировать и отрендерить один ход
+    private void nextTurn(WorldMap worldMap) {  //просимулировать и отрендерить один ход
         movementAction.makeCreaturesMove(worldMap);
         waveSpawnerAction.spawnWave(worldMap);
     }
