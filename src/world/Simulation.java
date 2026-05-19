@@ -21,15 +21,30 @@ public class Simulation {
     private final CreatureMovementAction movementAction = new CreatureMovementAction();
     private final WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();
     private int countMoves = 1;
-    private boolean paused = false;
 
+    private volatile boolean paused = false;
+    private volatile boolean running = true;
 
-    public void runSimulation(WorldMap worldMap) {
-        initSimulation(worldMap);
+    private final Scanner scanner = new Scanner(System.in);
 
-        startInputListener();
+    public void start(WorldMap worldMap) {
+        SimulationMenu.printWelcomeMessage();
+        SimulationMenu.printWorldConfig(entityConfig);
+        SimulationMenu.printRules();
 
-        while (worldMap.hasPrey()) {
+        if (SimulationMenu.shouldStartSimulation(scanner)) {
+            startInputListener(scanner);
+            initSimulation(worldMap);
+            runSimulation(worldMap);
+        }
+    }
+
+    private void runSimulation(WorldMap worldMap) {
+        while (worldMap.hasPrey() && running) {
+            waitIfPaused();
+
+            System.out.println();
+            System.out.println("Ход № " + countMoves);
 
             if (!paused) {
                 renderer.render(worldMap);
@@ -44,6 +59,18 @@ public class Simulation {
                 countMoves++;
             }
         }
+            renderer.render(worldMap);
+
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                System.err.println("Симуляция была прервана во время сна");
+            }
+
+            nextTurn(worldMap);
+            countMoves++;
+        }
+        System.out.println();
         renderer.render(worldMap);
     }
 
@@ -56,28 +83,37 @@ public class Simulation {
         waveSpawnerAction.spawnWave(worldMap);
     }
 
-    private void startInputListener() {
-        new Thread(() -> {
-            Scanner scanner = new Scanner(System.in);
+    private void startInputListener(Scanner scanner) {
+        Thread inputThread = new Thread(() -> {
+            while (running) {
+                String input = scanner.nextLine();
 
-            while (true) {
-                scanner.nextLine();
+                if (input.isEmpty()) {
+                    paused = !paused;
 
-                paused = !paused;
-
-                if (paused) {
-                    System.out.println("Пауза");
-                } else {
-                    System.out.println("Продолжение симуляции");
+                    if (paused) {
+                        System.out.println("⚓ Симуляция остановлена");
+                    } else {
+                        System.out.println("⛵Симуляция продолжена");
+                    }
+                }
+                if (input.equalsIgnoreCase("e")) {
+                    running = false;
+                    System.out.println("Выход из симуляции");
                 }
             }
-
-        }).start();
+        });
+        inputThread.setDaemon(true);
+        inputThread.start();
     }
 
-//    public void startSimulation() {  //запустить бесконечный цикл симуляции и рендеринга
-//    }
-
-//    private void pauseSimulation() {  //приостановить бесконечный цикл симуляции и рендеринга
-//    }
+    private void waitIfPaused() {
+        while (paused && running) {
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                System.err.println("Ошибка паузы");
+            }
+        }
+    }
 }
