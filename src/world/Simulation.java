@@ -3,6 +3,7 @@ package world;
 import actions.init.EntityConfig;
 import actions.init.EntityListCreatorAction;
 import actions.init.EntityPlacerAction;
+import ui.SimulationMenu;
 import actions.turn.CreatureMovementAction;
 import actions.turn.WaveSpawnerAction;
 import entities.Entity;
@@ -46,19 +47,6 @@ public class Simulation {
             System.out.println();
             System.out.println("Ход № " + countMoves);
 
-            if (!paused) {
-                renderer.render(worldMap);
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    System.err.println("Симуляция была прервана во время сна");
-                }
-                System.out.println();
-                System.out.println("Ход № " + countMoves);
-                nextTurn(worldMap);
-                countMoves++;
-            }
-        }
             renderer.render(worldMap);
 
             try {
@@ -71,6 +59,7 @@ public class Simulation {
             countMoves++;
         }
         System.out.println();
+        System.out.println("Ход № " + countMoves);
         renderer.render(worldMap);
     }
 
