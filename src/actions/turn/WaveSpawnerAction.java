@@ -2,13 +2,14 @@ package actions.turn;
 
 import entities.Wave;
 import world.Position;
+import world.Simulation;
 import world.WorldMap;
 
 public class WaveSpawnerAction {
-    public static final int WAVES_TO_SPAWN = 2;
+    public static final int WAVES_TO_SPAWN = 3;
 
     public void spawnWave(WorldMap worldMap) {
-        if (!worldMap.hasWave()) {
+        if (Simulation.countMoves % 4 == 0) {     //TODO: Раз в три хода норм?? Сделать защиту, чтоб если на поле есть 9 волн - больше не спавнилось пока не станет 6??
             int count = 0;
             while (count < WAVES_TO_SPAWN) {
                 worldMap.setEntity(Position.getRandomPosition(worldMap), new Wave());
