@@ -53,5 +53,8 @@ public class SimulationMenu {
             }
         }
     }
-}
 
+    public static void printWarning() {
+        System.out.printf("Такой команды нет! Для паузы нажмите - %s. Для выхода введите - '%s'%n", CONTINUE, EXIT);
+    }
+}
