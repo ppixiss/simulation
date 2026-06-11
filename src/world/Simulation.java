@@ -14,14 +14,14 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Simulation {
-    public EntityConfig entityConfig = new EntityConfig(1, 5, 7, 5, 1);
+    public EntityConfig entityConfig = new EntityConfig(1, 5, 9, 7, 5);
+    public static int countMoves = 1;
 
     private final EntityListCreatorAction entityListCreatorAction = new EntityListCreatorAction();
     private final List<Entity> entities = new ArrayList<>(entityListCreatorAction.createAllEntities(entityConfig));
     private final MapConsoleRenderer renderer = new MapConsoleRenderer();
     private final CreatureMovementAction movementAction = new CreatureMovementAction();
     private final WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();
-    private int countMoves = 1;
 
     private volatile boolean paused = false;
     private volatile boolean running = true;
@@ -86,9 +86,14 @@ public class Simulation {
                         System.out.println("⛵Симуляция продолжена");
                     }
                 }
-                if (input.equalsIgnoreCase("e")) {
-                    running = false;
-                    System.out.println("Выход из симуляции");
+
+                if (!input.isEmpty()) {
+                    if (input.equalsIgnoreCase("e")) {
+                        running = false;
+                        System.out.println("Выход из симуляции");
+                    } else {
+                        SimulationMenu.printWarning();
+                    }
                 }
             }
         });
