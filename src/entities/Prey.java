@@ -8,16 +8,16 @@ import world.WorldMap;
 import java.util.List;
 
 public class Prey extends Creature {
-    public static final int SPEED = 1;
+    public int SPEED = 1;
     public int hp = 100;
-    //Стремятся найти ресурс, может потратить свой ход на движение в сторону травы, либо на её поглощение.
+    private int boostedTurns = 0;
 
     @Override
     public void makeMove(WorldMap worldMap, Position currentPosition) {
         int count = 0;
         MapPathFinder pathFinder = new MapPathFinder();
 
-        while (count < SPEED) {
+        while (count < getSPEED()) {
             List<Position> shortestWay = MapPathFinder.createShortestWay(currentPosition, worldMap);
             Position nextCell = CreatureMovementAction.getNextCell(
                     currentPosition,
@@ -26,6 +26,7 @@ public class Prey extends Creature {
 
             if (canEat(worldMap.getEntityAt(nextCell))) {
                 worldMap.moveEntity(currentPosition, nextCell, this);
+                boostedTurns++;
 
                 return;
             } else {
@@ -36,6 +37,7 @@ public class Prey extends Creature {
                 count++;
             }
         }
+        updateEffects();
     }
 
     public boolean isEaten() {
@@ -49,5 +51,15 @@ public class Prey extends Creature {
     @Override
     public boolean canEat(Entity entity) {
         return entity instanceof Wave;
+    }
+
+    private int getSPEED() {
+        return SPEED + (boostedTurns > 0 ? 1 : 0);
+    }
+
+    private void updateEffects() {
+        if (boostedTurns > 0) {
+            boostedTurns--;
+        }
     }
 }
