@@ -1,6 +1,6 @@
 package path;
 
-import entities.Creature;
+import entities.creatures.Creature;
 import entities.Entity;
 import world.Position;
 import world.WorldMap;
@@ -22,15 +22,15 @@ public class MapPathFinder {
         return path.remove(0);
     }
 
-    public static List<Position> createShortestWay(Position position, WorldMap worldMap) {
+    public static List<Position> computePathToTarget(Position position, WorldMap worldMap) {
         List<Position> path = new ArrayList<>();
-        Map<Position, Position> parent = findShortestWay(position, worldMap);
+        Map<Position, Position> cameFrom = searchRoutesToTarget(position, worldMap);
 
         Position current = target;
 
         while (current != null) {
             path.add(current);
-            current = parent.get(current);
+            current = cameFrom.get(current);
         }
 
         Collections.reverse(path);
@@ -41,10 +41,10 @@ public class MapPathFinder {
         return path;
     }
 
-    private static Map<Position, Position> findShortestWay(Position start, WorldMap worldMap) {
+    private static Map<Position, Position> searchRoutesToTarget(Position start, WorldMap worldMap) {
         Set<Position> visitedCells = new HashSet<>();
         Deque<Position> processingQueue = new ArrayDeque<>();
-        Map<Position, Position> parent = new HashMap<>();
+        Map<Position, Position> cameFrom = new HashMap<>();
 
         Creature currentCreature = (Creature) worldMap.getEntityAt(start);
 
@@ -59,18 +59,19 @@ public class MapPathFinder {
                 break;
             }
 
+            assert current != null;
             for (Position neighborCell : findNeighborCells(current)) {
 
                 if (canCreaturePass(neighborCell, worldMap, currentCreature)) {
                     if (!visitedCells.contains(neighborCell)) {
                         visitedCells.add(neighborCell);
                         processingQueue.add(neighborCell);
-                        parent.put(neighborCell, current);
+                        cameFrom.put(neighborCell, current);
                     }
                 }
             }
         }
-        return parent;
+        return cameFrom;
     }
 
     private static boolean canCreaturePass(Position neighborCell, WorldMap worldMap, Creature currentCreature) {

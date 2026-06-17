@@ -1,6 +1,6 @@
 package actions.turn;
 
-import entities.Creature;
+import entities.creatures.Creature;
 import entities.Entity;
 import path.MapPathFinder;
 import world.Position;
@@ -15,30 +15,30 @@ import java.util.Set;
 
 public class CreatureMovementAction {
     Queue<Position> creaturesPositions = new ArrayDeque<>();
-    Set<Creature> movedCreature = new HashSet<>();
+    Set<Creature> movedCreatures = new HashSet<>();
 
     public void makeCreaturesMove(WorldMap worldMap) {
         creaturesPositions.clear();
-        movedCreature.clear();
-        collectCreaturesPositions(worldMap);
+        movedCreatures.clear();
+        saveCreaturesPositions(worldMap);
 
         for (Position currentPosition : creaturesPositions) {
-            Creature currentEntity = (Creature) worldMap.getEntityAt(currentPosition);
+            Creature currentCreature = (Creature) worldMap.getEntityAt(currentPosition);
 
-            if (movedCreature.contains(currentEntity)) {
+            if (movedCreatures.contains(currentCreature)) {
                 continue;
             }
 
-            if (currentEntity == null) {
+            if (currentCreature == null) {
                 continue;
             }
 
-            currentEntity.makeMove(worldMap, currentPosition);
-            movedCreature.add(currentEntity);
+            currentCreature.makeMove(worldMap, currentPosition);
+            movedCreatures.add(currentCreature);
         }
     }
 
-    private void collectCreaturesPositions(WorldMap worldMap) {
+    private void saveCreaturesPositions(WorldMap worldMap) {
         for (Map.Entry<Position, Entity> entry : worldMap.getEntries()) {
             Position currentPosition = entry.getKey();
             Entity currentEntity = entry.getValue();
@@ -52,7 +52,6 @@ public class CreatureMovementAction {
     public static Position getNextCell(Position position,
                                        List<Position> shortestWay,
                                        MapPathFinder pathFinder) {
-        // проверка пустоты пути
         if (shortestWay.isEmpty()) {
             return position;
         }

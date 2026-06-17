@@ -1,10 +1,10 @@
 package actions.init;
 
-import entities.Coral;
+import entities.environment.Coral;
 import entities.Entity;
-import entities.Island;
-import entities.Predator;
-import entities.Prey;
+import entities.environment.Island;
+import entities.creatures.Predator;
+import entities.creatures.Prey;
 
 public class EntityIconMapperAction {
     private static final String PREDATOR = "\uD83E\uDD88 ";

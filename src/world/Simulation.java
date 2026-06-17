@@ -1,9 +1,9 @@
 package world;
 
 import actions.init.EntityConfig;
-import actions.init.EntityListCreatorAction;
+import entities.EntityCollector;
 import actions.init.EntityPlacerAction;
-import ui.SimulationMenu;
+import console.SimulationMenu;
 import actions.turn.CreatureMovementAction;
 import actions.turn.WaveSpawnerAction;
 import entities.Entity;
@@ -14,11 +14,11 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Simulation {
-    public EntityConfig entityConfig = new EntityConfig(1, 5, 9, 7, 5);
+    public EntityConfig entityConfig = new EntityConfig(2, 6, 13, 12, 6);
     public static int countMoves = 1;
 
-    private final EntityListCreatorAction entityListCreatorAction = new EntityListCreatorAction();
-    private final List<Entity> entities = new ArrayList<>(entityListCreatorAction.createAllEntities(entityConfig));
+    private final EntityCollector entityCollector = new EntityCollector();
+    private final List<Entity> entities = new ArrayList<>(entityCollector.collectEntities(entityConfig));
     private final MapConsoleRenderer renderer = new MapConsoleRenderer();
     private final CreatureMovementAction movementAction = new CreatureMovementAction();
     private final WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();

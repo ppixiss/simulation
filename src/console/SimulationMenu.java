@@ -18,26 +18,22 @@ public class SimulationMenu {
         System.out.print("🌊");
         System.out.print(PURPLE + ITALIC + " WELCOME TO SIMULATION! " + RESET);
         System.out.println("🌊");
-        System.out.println("🌊\uD83E\uDEB8🌊🌊🌊🌊🌊🌊🌊🌊🌊️🌊🌊");
-        System.out.println();
+        System.out.printf("🌊\uD83E\uDEB8🌊🌊🌊🌊🌊🌊🌊🌊🌊️🌊🌊%n%n");
     }
 
     public static void printRules() {
         System.out.printf("\uD83D\uDC21 Для запуска симуляции введите '%s'%n", START);
         System.out.printf("\uD83D\uDC21 Чтобы остановить или продолжить симуляцию нажмите клавишу %s%n", CONTINUE);
-        System.out.printf("\uD83D\uDC21 Чтобы выйти из симуляции поставьте ее на паузу и введите '%s'%n", EXIT);
-        System.out.println();
+        System.out.printf("\uD83D\uDC21 Чтобы выйти из симуляции поставьте ее на паузу и введите '%s'%n%n", EXIT);
     }
 
     public static void printWorldConfig(EntityConfig entityConfig) {
-        //todo: отформатировать
         System.out.print("Информация о мире.");
-        System.out.print(" Акулы - " + entityConfig.predatorCount() + ". ");
-        System.out.print(" Серферы - " + entityConfig.preyCount() + ". ");
-        System.out.print(" Кораллы - " + entityConfig.coralCount() + ". ");
-        System.out.print(" Острова - " + entityConfig.islandCount() + ". ");
-        System.out.println(" Волны - " + entityConfig.waveCount() + ". ");
-        System.out.println();
+        System.out.printf(" Акулы - %d.", entityConfig.predatorCount());
+        System.out.printf(" Серферы - %d.", entityConfig.preyCount());
+        System.out.printf(" Кораллы - %d.", entityConfig.coralCount());
+        System.out.printf(" Острова - %d.", entityConfig.islandCount());
+        System.out.printf(" Волны - %d.%n%n", entityConfig.waveCount());
     }
 
     public static boolean shouldStartSimulation(Scanner scanner) {

@@ -10,7 +10,7 @@ import world.WorldMap;
 import java.util.List;
 
 public class Prey extends Creature {
-    public int SPEED = 1;
+    public static int speed = 1;
     public int hp = 100;
     private int boostedTurns = 0;
 
@@ -19,11 +19,11 @@ public class Prey extends Creature {
         int count = 0;
         MapPathFinder pathFinder = new MapPathFinder();
 
-        while (count < getSPEED()) {
-            List<Position> shortestWay = MapPathFinder.createShortestWay(currentPosition, worldMap);
+        while (count < getSpeed()) {
+            List<Position> shortestPath = MapPathFinder.computePathToTarget(currentPosition, worldMap);
             Position nextCell = CreatureMovementAction.getNextCell(
                     currentPosition,
-                    shortestWay,
+                    shortestPath,
                     pathFinder);
 
             if (canEat(worldMap.getEntityAt(nextCell))) {
@@ -55,8 +55,8 @@ public class Prey extends Creature {
         return entity instanceof Wave;
     }
 
-    private int getSPEED() {
-        return SPEED + (boostedTurns > 0 ? 1 : 0);
+    private int getSpeed() {
+        return speed + (boostedTurns > 0 ? 1 : 0);
     }
 
     private void updateEffects() {

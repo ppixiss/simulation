@@ -1,16 +1,15 @@
 package world;
 
 import entities.Entity;
-import entities.Prey;
-import entities.Wave;
+import entities.creatures.Prey;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class WorldMap {
-    public static final int HORIZONTAL_SIZE = 10;
-    public static final int VERTICAL_SIZE = 10;
+    public static final int HORIZONTAL_SIZE = 12;
+    public static final int VERTICAL_SIZE = 12;
 
     private final HashMap<Position, Entity> worldMap = new HashMap<>();  //<K, V>
 
@@ -22,7 +21,7 @@ public class WorldMap {
         worldMap.remove(position);
     }
 
-    public boolean isCellEmpty(Position position) { //Возвращает false, если ячейка занята
+    public boolean isCellEmpty(Position position) {
         return !worldMap.containsKey(position);
     }
 
@@ -39,17 +38,6 @@ public class WorldMap {
             Entity entity = entry.getValue();
 
             if (entity instanceof Prey) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean hasWave() {
-        for (Map.Entry<Position, Entity> entry : getEntries()) {
-            Entity entity = entry.getValue();
-
-            if (entity instanceof Wave) {
                 return true;
             }
         }
