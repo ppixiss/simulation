@@ -51,7 +51,30 @@ public class SimulationMenu {
         }
     }
 
-    public static void printWarning() {
+    public static void showRestartMenu() {
+        System.out.println();
+        System.out.printf("Симуляция завершена! Ходов потребовалось: " + Simulation.countMoves + "%n%n");
+
+        System.out.printf("Чтобы начать новую симуляцию, введите - '%s'; для выхода введите - '%s'%n", START, EXIT);
+        System.out.println();
+    }
+
+    public static boolean shouldRestartSimulation(Scanner scanner) {
+        while (true) {
+            String userInput = scanner.nextLine();
+
+            switch (userInput.toLowerCase()) {
+                case START:
+                    return true;
+                case EXIT:
+                    return false;
+                default:
+                    System.out.printf("Ошибка! Введите '%s' или '%s'%n", START, EXIT);
+            }
+        }
+    }
+
+    public static void printWarningMessage() {
         System.out.printf("Такой команды нет! Для паузы нажмите - %s. Для выхода введите - '%s'%n", CONTINUE, EXIT);
     }
 }
