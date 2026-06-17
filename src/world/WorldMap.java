@@ -48,4 +48,8 @@ public class WorldMap {
         removeEntity(currentPosition);
         setEntity(nextCell, entity);
     }
+
+    public void clear() {
+        worldMap.clear();
+    }
 }
