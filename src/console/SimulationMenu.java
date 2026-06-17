@@ -1,6 +1,7 @@
-package ui;
+package console;
 
 import actions.init.EntityConfig;
+import world.Simulation;
 
 import java.util.Scanner;
 

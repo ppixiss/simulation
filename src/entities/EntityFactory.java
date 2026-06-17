@@ -1,15 +1,16 @@
-package actions.init;
+package entities;
 
-import entities.Coral;
-import entities.Island;
-import entities.Predator;
-import entities.Prey;
-import entities.Wave;
+import actions.init.EntityConfig;
+import entities.creatures.Predator;
+import entities.creatures.Prey;
+import entities.environment.Coral;
+import entities.environment.Island;
+import entities.environment.Wave;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityCreatorAction {
+public class EntityFactory {
 
     public static List<Predator> createPredators(EntityConfig entityConfig) {
         int predatorCount = entityConfig.predatorCount();
