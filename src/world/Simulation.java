@@ -23,8 +23,10 @@ public class Simulation {
     private final CreatureMovementAction movementAction = new CreatureMovementAction();
     private final WaveSpawnerAction waveSpawnerAction = new WaveSpawnerAction();
 
+    private Thread inputThread;
+
     private volatile boolean paused = false;
-    private volatile boolean running = true;
+    private volatile boolean running;
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -34,9 +36,37 @@ public class Simulation {
         SimulationMenu.printRules();
 
         if (SimulationMenu.shouldStartSimulation(scanner)) {
-            startInputListener(scanner);
-            initSimulation(worldMap);
-            runSimulation(worldMap);
+
+            while (true) {
+                running = true;
+                paused = false;
+
+                startInputListener();
+
+                generateValidWorld(worldMap);
+                runSimulation(worldMap);
+
+                stopInputListener();
+
+                SimulationMenu.showRestartMenu();
+
+                if (SimulationMenu.shouldRestartSimulation(scanner)) {
+
+                    worldMap.clear();
+                    countMoves = 1;
+
+                    try {
+                        if (inputThread != null) {
+                            inputThread.join(500);
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                } else {
+                    break;
+                }
+            }
         }
     }
 
@@ -63,42 +93,69 @@ public class Simulation {
         renderer.render(worldMap);
     }
 
-    private void initSimulation(WorldMap worldMap) {
-        EntityPlacerAction.placeEntities(entities, worldMap);
+    private void generateValidWorld(WorldMap worldMap) {
+        while (true) {
+            EntityPlacerAction.placeEntities(entities, worldMap);
+
+            if (WorldValidator.isWorldValid(worldMap)) {
+                return;
+            }
+            worldMap.clear();
+        }
     }
 
-    private void nextTurn(WorldMap worldMap) {  //просимулировать и отрендерить один ход
+    private void nextTurn(WorldMap worldMap) {
         movementAction.makeCreaturesMove(worldMap);
         waveSpawnerAction.spawnWave(worldMap);
     }
 
-    private void startInputListener(Scanner scanner) {
-        Thread inputThread = new Thread(() -> {
-            while (running) {
-                String input = scanner.nextLine();
+    private void startInputListener() {
+        inputThread = new Thread(() -> {
 
-                if (input.isEmpty()) {
-                    paused = !paused;
+            while (running && !Thread.currentThread().isInterrupted()) {
+                try {
+                    if (System.in.available() > 0) {
+                        String input = scanner.nextLine();
 
-                    if (paused) {
-                        System.out.println("⚓ Симуляция остановлена");
+                        if (input.isEmpty()) {
+                            paused = !paused;
+
+                            if (paused) {
+                                System.out.println("⚓ Симуляция остановлена");
+                            } else {
+                                System.out.println("⛵ Симуляция продолжена");
+                            }
+                        } else {
+                            if (input.equalsIgnoreCase("e")) {
+                                running = false;
+                                System.out.println("Выход из симуляции...");
+                                System.exit(0);
+                            } else {
+                                SimulationMenu.printWarningMessage();
+                            }
+                        }
                     } else {
-                        System.out.println("⛵Симуляция продолжена");
+                        TimeUnit.MILLISECONDS.sleep(100);
                     }
-                }
-
-                if (!input.isEmpty()) {
-                    if (input.equalsIgnoreCase("e")) {
-                        running = false;
-                        System.out.println("Выход из симуляции");
-                    } else {
-                        SimulationMenu.printWarning();
-                    }
+                } catch (Exception e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         });
         inputThread.setDaemon(true);
         inputThread.start();
+    }
+
+    private void stopInputListener() {
+        running = false;
+        if (inputThread != null) {
+            inputThread.interrupt();
+            try {
+                inputThread.join(200);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 
     private void waitIfPaused() {
