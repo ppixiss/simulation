@@ -1,5 +1,6 @@
-package entities;
+package entities.creatures;
 
+import entities.Entity;
 import world.Position;
 import world.WorldMap;
 

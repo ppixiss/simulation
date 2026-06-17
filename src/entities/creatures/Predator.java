@@ -1,6 +1,7 @@
-package entities;
+package entities.creatures;
 
 import actions.turn.CreatureMovementAction;
+import entities.Entity;
 import path.MapPathFinder;
 import world.Position;
 import world.WorldMap;
